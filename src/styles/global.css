@@ -1,7 +1,30 @@
+/* Tailwind CSS Base Styles */
+@import "tailwindcss";
+
 * {
    padding: 0;
    margin: 0;
    box-sizing: border-box;
    font-family: var(--font-primary);
+   color: var(--text-primary);
    scroll-behavior: smooth;
+}
+::-webkit-scrollbar {
+   display: none;
+}
+.glassmorphic-bg {
+   border: 1px solid #4b5563;
+   backdrop-filter: blur(24px);
+   border-radius: 1rem;
+}
+
+.app {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   width: 100vw;
+   height: 100vh;
+   background: url("../assets/bgImage.svg") no-repeat center center fixed;
+   background-size: cover;
+   overflow: hidden;
 }
