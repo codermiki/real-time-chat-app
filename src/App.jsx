@@ -1,11 +1,11 @@
 import React from "react";
-import "./styles/global.css";
-import "./styles/variables.css";
+
+import AppRoutes from "./routes";
 
 function App() {
    return (
       <>
-         <div>Real Time Chat App</div>
+         <AppRoutes />
       </>
    );
 }
