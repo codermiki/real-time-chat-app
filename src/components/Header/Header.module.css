@@ -1,0 +1,33 @@
+.header {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   padding: 1rem 0;
+   border-bottom: 1px solid #c6c6c6;
+}
+.profile {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   width: max-content;
+   gap: 0.5rem;
+}
+.profile_img {
+   width: 52px;
+   aspect-ratio: 1;
+   border-radius: 50%;
+}
+.profile_status {
+   width: 12px;
+   aspect-ratio: 1;
+   border-radius: 50%;
+   background-color: #43d200;
+}
+.header_icon {
+   width: 30px;
+   aspect-ratio: 1;
+   display: grid;
+   place-content: center;
+   border: 1px solid #fff;
+   border-radius: 50%;
+}
