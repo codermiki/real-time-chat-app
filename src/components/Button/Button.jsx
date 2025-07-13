@@ -1,10 +1,9 @@
-import React from "react";
 import styles from "./Button.module.css";
 
-function Button() {
+function Button({ btnContent }) {
    return (
       <>
-         <div>Button</div>
+         <button className={`${styles["button"]}`}>{btnContent}</button>
       </>
    );
 }
