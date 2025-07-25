@@ -1,8 +1,10 @@
-import React from "react";
+import { useContext } from "react";
 import styles from "./RightSideBar.module.css";
 import Button from "../Button/Button";
+import { AuthContext } from "../../Context/AuthContext";
 
-function RightSideBar() {
+function RightSideBar() {  
+   const { logout } = useContext(AuthContext);
    return (
       <>
          <div className={`${styles["right-sidebar"]}`}>
@@ -40,7 +42,7 @@ function RightSideBar() {
                   </div>
                </div>
             </div>
-            <Button btnContent={'Logout'} />
+            <Button btnContent={"Logout"} handleClick={() => logout()} />
          </div>
       </>
    );
