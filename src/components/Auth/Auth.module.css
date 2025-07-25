@@ -1,0 +1,110 @@
+.auth {
+   display: flex;
+   flex-direction: column;
+   min-height: 100vh;
+}
+.auth_left-wrapper {
+   display: none;
+}
+.auth_left-wrapper,
+.auth_right-wrapper {
+   flex: 1;
+   min-height: 100vh;
+   align-items: center;
+}
+.auth_right-wrapper {
+   flex: 2;
+   display: flex;
+   justify-content: center;
+   position: relative;
+   overflow: hidden;
+}
+/* slide */
+.form-slider {
+   display: flex;
+   transition: transform 0.5s ease;
+   overflow: hidden;
+}
+.slide-login {
+   transform: translateX(0%);
+}
+.slide-signup {
+   transform: translateX(-50%);
+}
+.form-container {
+   width: 100%;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   padding: 2rem;
+   box-sizing: border-box;
+}
+/* slide end */
+.form {
+   display: flex;
+   flex-direction: column;
+   gap: 2rem;
+   padding: 2rem;
+   width: 100%;
+   min-width: 25rem;
+   min-height: 500px;
+   transform: translateX(100%);
+   transition: transform 0.3s ease;
+}
+.form.slide-in {
+   transform: translateX(0%);
+}
+.form_title {
+   font-size: 1.5rem;
+   font-weight: 600;
+}
+.input-wrapper {
+   position: relative;
+}
+.input {
+   width: 100%;
+   padding: 0.5rem;
+   border: 1px solid #737272;
+   border-radius: 0.5rem;
+}
+.agreement {
+   display: flex;
+   gap: 0.5rem;
+}
+.agreement input {
+   width: 1rem;
+   cursor: pointer;
+}
+.agreement,
+.link {
+   font-size: 14px;
+   font-weight: 400;
+   color: var(--text-secondary);
+}
+.link a {
+   color: rgb(144, 69, 215);
+   font-weight: 600;
+}
+.auth_logo {
+   width: 150px;
+}
+.error {
+   position: absolute;
+   bottom: 10;
+   left: 0;
+   width: 100%;
+   color: red;
+   font-size: 0.8rem;
+   font-weight: 600;
+}
+
+/* Responsive: show left image on medium screens and up */
+@media (width >= 40rem) {
+   .auth {
+      flex-direction: row;
+   }
+
+   .auth_left-wrapper {
+      display: flex;
+   }
+}

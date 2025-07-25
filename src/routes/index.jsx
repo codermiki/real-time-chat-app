@@ -1,8 +1,9 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import Home from "../pages/Home/Home";
-import AuthRoutes from "./AuthRoutes";
 import MainLayout from "../Layouts/Main/MainLayout";
+import ProtectedRoute from "../components/ProtectedRoute/ProtectedRoute";
+import Auth from "../components/Auth/Auth";
 
 function AppRoutes() {
    return (
@@ -11,12 +12,14 @@ function AppRoutes() {
             <Route
                path="/"
                element={
-                  <MainLayout>
-                     <Home />
-                  </MainLayout>
+                  <ProtectedRoute>
+                     <MainLayout>
+                        <Home />
+                     </MainLayout>
+                  </ProtectedRoute>
                }
             />
-            <Route path="/auth/*" element={<AuthRoutes />} />
+            <Route path="/auth/:authType" element={<Auth />} />
             <Route path="*" element={"404"} />
          </Routes>
       </>
