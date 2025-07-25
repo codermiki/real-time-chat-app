@@ -7,11 +7,14 @@ import App from "./App.jsx";
 import "./styles/global.css";
 // Importing variables for styling
 import "./styles/variables.css";
+import { AuthProvider } from "./context/AuthContext.jsx";
 
 createRoot(document.getElementById("root")).render(
    <StrictMode>
       <BrowserRouter>
-         <App />
+         <AuthProvider>
+            <App />
+         </AuthProvider>
       </BrowserRouter>
    </StrictMode>
 );
