@@ -1,9 +1,22 @@
 import styles from "./Button.module.css";
 
-function Button({ btnContent }) {
+function Button({
+   btnContent,
+   btnUniqueStyle,
+   handleClick,
+   btnType = "button",
+}) {
    return (
       <>
-         <button className={`${styles["button"]}`}>{btnContent}</button>
+         <button
+            className={`${styles["button"]} ${
+               btnUniqueStyle ? styles[btnUniqueStyle] : ""
+            }`}
+            onClick={handleClick}
+            type={btnType}
+         >
+            {btnContent}
+         </button>
       </>
    );
 }
