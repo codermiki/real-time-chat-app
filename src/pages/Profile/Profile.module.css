@@ -5,7 +5,56 @@
    place-content: center;
 }
 .profile-inner-container {
+   display: flex;
    width: 100%;
-   max-width: 450px;
+   max-width: max-content;
    padding: 2rem;
+   gap: 2rem;
+}
+.profile-form {
+   display: flex;
+   flex-direction: column;
+   gap: 2rem;
+   padding: 2rem;
+}
+.profile-picture {
+   display: none;
+}
+.profile-picture img {
+   min-width: 176px;
+   margin: 0 40px;
+   border-radius: 50%;
+}
+.form_title {
+   font-size: 1.5rem;
+   font-weight: 600;
+}
+.input-wrapper {
+   position: relative;
+}
+.input {
+   width: 100%;
+   padding: 0.5rem;
+   border: 1px solid #737272;
+   border-radius: 0.5rem;
+}
+.image-upload-wrapper {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   gap: 0.5rem;
+   cursor: pointer;
+}
+.image-upload-wrapper img {
+   max-width: 60px;
+}
+
+@media (width >= 40rem) {
+   .profile-picture {
+      display: grid;
+      place-content: center;
+   }
+   .profile-inner-container {
+      border: 2px solid;
+   }
 }

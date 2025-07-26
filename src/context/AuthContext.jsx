@@ -93,11 +93,14 @@ export const AuthProvider = ({ children }) => {
          if (data?.success) {
             setAuthUser(data.data);
             toast.success(data.message);
+            return true;
          } else {
             toast.error(data.message);
+            return false;
          }
       } catch (error) {
          toast.error(error.message);
+         return false;
       } finally {
          setIsLoading(false);
       }
