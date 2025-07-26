@@ -1,9 +1,9 @@
 import { useContext } from "react";
 import styles from "./RightSideBar.module.css";
 import Button from "../Button/Button";
-import { AuthContext } from "../../Context/AuthContext";
+import { AuthContext } from "../../context/AuthContext";
 
-function RightSideBar() {  
+function RightSideBar() {
    const { logout } = useContext(AuthContext);
    return (
       <>

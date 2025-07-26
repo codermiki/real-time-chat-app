@@ -19,32 +19,15 @@
    position: relative;
    overflow: hidden;
 }
-/* slide */
-.form-slider {
-   display: flex;
-   transition: transform 0.5s ease;
+.form-container {
    overflow: hidden;
 }
-.slide-login {
-   transform: translateX(0%);
-}
-.slide-signup {
-   transform: translateX(-50%);
-}
-.form-container {
-   width: 100%;
-   display: flex;
-   justify-content: center;
-   align-items: center;
-   padding: 2rem;
-   box-sizing: border-box;
-}
-/* slide end */
 .form {
    display: flex;
    flex-direction: column;
    gap: 2rem;
    padding: 2rem;
+   border: 2px solid;
    width: 100%;
    min-width: 25rem;
    min-height: 500px;

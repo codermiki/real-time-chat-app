@@ -1,0 +1,11 @@
+.profile-outer-container {
+   min-height: 100vh;
+   width: 100%;
+   display: grid;
+   place-content: center;
+}
+.profile-inner-container {
+   width: 100%;
+   max-width: 450px;
+   padding: 2rem;
+}

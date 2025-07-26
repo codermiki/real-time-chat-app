@@ -12,10 +12,10 @@
 ::-webkit-scrollbar {
    display: none;
 }
-.glass-morphic-bg {
-   border: 1px solid #4b5563;
-   backdrop-filter: blur(24px);
-   border-radius: 1rem;
+.bg-glass {
+   backdrop-filter: blur(40px);
+   border-color: oklch(55.1% 0.027 264.364);
+   border-radius: 0.5rem;
 }
 
 .app {

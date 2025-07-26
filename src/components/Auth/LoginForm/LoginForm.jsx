@@ -1,6 +1,6 @@
 import styles from "../Auth.module.css";
 import Button from "../../Button/Button";
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -19,6 +19,10 @@ const schema = yup.object().shape({
 });
 
 function LoginForm() {
+   const navigate = useNavigate();
+   const location = useLocation();
+   const from = location.state?.from?.pathname || "/";
+
    // slide in animation
    const slideIn = useSlideIn();
 
@@ -36,11 +40,11 @@ function LoginForm() {
    });
 
    // function to handle form submission
-   const onSubmit = (data) => {
+   const onSubmit = async (data) => {
       try {
-         const success = login("login", data);
+         const success = await login("login", data);
          if (success) {
-            <Navigate to="/" />;
+            navigate(from, { replace: true });
             reset();
          }
       } catch (error) {
@@ -53,7 +57,7 @@ function LoginForm() {
          <form
             className={`${styles["form"]} ${
                slideIn ? styles["slide-in"] : ""
-            } glass-morphic-bg`}
+            } bg-glass`}
          >
             <h1 className={`${styles["form_title"]}`}>Login</h1>
             <div className={`${styles["input-wrapper"]}`}>

@@ -6,7 +6,7 @@ function MainLayout({ children }) {
    return (
       <>
          <section
-            className={`${styles["main-layout"]} glassmorphic-bg`}
+            className={`${styles["main-layout"]} bg-glass`}
          >
             <section
                className={`${styles["main-layout__sidebar"]}  bg-[#8185b2]/10`}

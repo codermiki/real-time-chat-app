@@ -1,8 +1,7 @@
 .preloader-wrapper {
-   height: calc(100vh - 100px);
+   height: 100vh;
    display: grid;
    place-content: center;
-   backdrop-filter: blur(24px);
 }
 .preloader {
    display: flex;

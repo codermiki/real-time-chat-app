@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import assets from "../../assets/assets";
 import styles from "./ChatCard.module.css";
 
@@ -8,6 +9,9 @@ function ChatCard({ message = true, files, chatForm = "sent" }) {
             <div className={`${styles["chat_profile"]}`}>
                <img src={assets.avatar_icon} alt="" />
                <span>4:30 PM</span>
+               <Link to={"/profile"}>
+                  <p>Caroline Gray</p>
+               </Link>
             </div>
             <div className={`${styles["chat_message"]} ${styles[chatForm]}`}>
                {files.map((file, index) => {

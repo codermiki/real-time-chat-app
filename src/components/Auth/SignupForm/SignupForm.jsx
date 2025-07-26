@@ -57,7 +57,7 @@ function SignupForm() {
          <form
             className={`${styles["form"]} ${
                slideIn ? styles["slide-in"] : ""
-            } glass-morphic-bg`}
+            } bg-glass`}
          >
             <h1 className={`${styles["form_title"]}`}>Sign up</h1>
             <div className={`${styles["input-wrapper"]}`}>
