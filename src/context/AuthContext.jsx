@@ -60,7 +60,6 @@ export const AuthProvider = ({ children }) => {
             setToken(data.token);
             localStorage.setItem("token", data.token);
             setAuthUser(data.data);
-            handleSocketConnection(data.data);
             return true;
          } else {
             toast.error(data.message);
