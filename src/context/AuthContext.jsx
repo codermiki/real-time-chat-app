@@ -1,9 +1,12 @@
 import { createContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { io } from "socket.io-client";
-import { createAxiosInstance } from "../utils/axiosInstance.js";
-
-const backendUrl = import.meta.env.VITE_BACKEND_URL;
+import {
+   loginUser,
+   logoutUser,
+   updateUserProfile,
+   checkAuthStatus,
+} from "../services/authService";
+import { createSocketConnection } from "../services/socketService";
 
 export const AuthContext = createContext();
 
@@ -15,18 +18,14 @@ export const AuthProvider = ({ children }) => {
    const [socket, setSocket] = useState(null);
    const [onlineUsers, setOnlineUsers] = useState([]);
 
-   // check auth on component mount and token state changed
+   // check auth status
    useEffect(() => {
-      // check if the user is authenticated and if so, set user data and connect the socket
-      const checkAuth = async () => {
+      const verifyAuth = async () => {
          try {
             setIsLoading(true);
-
-            const axiosInstance = await createAxiosInstance(token);
-            const { data } = await axiosInstance.get("/auth/check-auth");
+            const data = await checkAuthStatus(token);
             if (data?.success) {
-               setAuthUser(data?.data);
-               connectSocket(data.data);
+               setAuthUser(data.data);
                setIsAuth(true);
             } else {
                setIsAuth(false);
@@ -39,38 +38,29 @@ export const AuthProvider = ({ children }) => {
          }
       };
 
-      checkAuth();
+      verifyAuth();
    }, [token]);
 
-   // connect the socket
-   const connectSocket = async (userData) => {
-      if (!userData || socket?.connected) return;
-      const socketInstance = io(backendUrl, {
-         query: {
-            userId: userData._id,
-         },
-      });
-      socketInstance.connect();
-      setSocket(socketInstance);
+   // Create socket only after successful authUser state update
+   useEffect(() => {
+      if (authUser?._id && !socket) {
+         const socketInstance = createSocketConnection(
+            authUser._id,
+            setOnlineUsers
+         );
+         setSocket(socketInstance);
+      }
+   }, [authUser, socket]);
 
-      socketInstance.on("getOnlineUsers", (userIds) => {
-         setOnlineUsers(userIds);
-      });
-   };
-
-   // login function to register and signin the user
+   // login user
    const login = async (state, credentials) => {
       try {
-         const axiosInstance = await createAxiosInstance(token);
-         const { data } = await axiosInstance.post(
-            `/auth/${state}`,
-            credentials
-         );
+         const data = await loginUser(state, credentials, token);
          if (data?.success) {
             setToken(data.token);
             localStorage.setItem("token", data.token);
             setAuthUser(data.data);
-            await connectSocket(data.data);
+            handleSocketConnection(data.data);
             return true;
          } else {
             toast.error(data.message);
@@ -82,30 +72,25 @@ export const AuthProvider = ({ children }) => {
       }
    };
 
-   // logout function to logout the user and socket disconnection
+   // logout user
    const logout = async () => {
       try {
-         localStorage.removeItem("token");
+         logoutUser();
          setToken(null);
          setAuthUser(null);
          setIsAuth(false);
          await socket?.disconnect();
-         toast.success("logged out successfully");
+         toast.success("Logged out successfully");
       } catch (error) {
          toast.error(error.message);
       }
    };
 
-   // update profile function to handle user profile update
+   // update user profile
    const updateProfile = async (profileData) => {
       try {
          setIsLoading(true);
-
-         const axiosInstance = await createAxiosInstance(token);
-         const { data } = await axiosInstance.put(
-            `/auth/update-profile`,
-            profileData
-         );
+         const data = await updateUserProfile(profileData, token);
          if (data?.success) {
             setAuthUser(data.data);
             toast.success(data.message);
@@ -119,7 +104,7 @@ export const AuthProvider = ({ children }) => {
       }
    };
 
-   // provide context value
+   // context value
    const value = {
       isAuth,
       isLoading,
@@ -131,9 +116,5 @@ export const AuthProvider = ({ children }) => {
       updateProfile,
    };
 
-   return (
-      <>
-         <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
-      </>
-   );
+   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

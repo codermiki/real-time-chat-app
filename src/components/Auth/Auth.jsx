@@ -4,7 +4,7 @@ import SignupForm from "./SignupForm/SignupForm";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import LoginForm from "./LoginForm/LoginForm";
 import { AuthContext } from "../../context/AuthContext";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import PreLoader from "../PreLoader/PreLoader";
 
 function Auth() {
@@ -12,14 +12,19 @@ function Auth() {
    const location = useLocation();
    const from = location.state?.from?.pathname || "/";
 
-   // check if the user is authenticated and if so, redirect to home page
+   // Auth Context
    const { isAuth, isLoading } = useContext(AuthContext);
    const { authType } = useParams();
    const isLogin = authType === "login";
 
-   if (isLoading) return <PreLoader />;
+   // check if user is authenticated
+   useEffect(() => {
+      if (isAuth) {
+         navigate(from, { replace: true });
+      }
+   }, [isAuth, from, navigate]);
 
-   if (isAuth) return navigate(from, { replace: true });
+   if (isLoading) return <PreLoader />;
 
    return (
       <section className={`${styles["auth"]} sm:flex bg-glass`}>
