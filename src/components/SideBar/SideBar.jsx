@@ -1,13 +1,23 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import styles from "./SideBar.module.css";
 import assets, { userDummyData } from "../../assets/assets";
 import ContactCard from "../ContactCard/ContactCard";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
+import { ChatContext } from "../../context/ChatContext";
 
 function SideBar() {
    // Initialize the useContext hook
-   const { logout } = useContext(AuthContext);
+   const {
+      users,
+      fetchUsers,
+      unseenMessages,
+      setUnseenMessages,
+      selectedUser,
+      setSelectedUser,
+   } = useContext(ChatContext);
+
+   const { logout, onlineUsers } = useContext(AuthContext);
 
    // Initialize the useNavigate hook
    const navigate = useNavigate();
@@ -17,6 +27,11 @@ function SideBar() {
    const toggleDropdown = () => {
       setShowMenu(!showMenu);
    };
+
+   // Fetch users when onlineUsers changes
+   useEffect(() => {
+      fetchUsers();
+   }, [onlineUsers]);
 
    return (
       <>
@@ -50,9 +65,16 @@ function SideBar() {
             </header>
 
             <nav className={`${styles["sidebar__nav"]}`}>
-               {userDummyData.slice(0, 5).map((user) => (
-                  <ContactCard key={user._id} contact={user} />
-               ))}
+               {users &&
+                  users.map((user) => (
+                     <ContactCard
+                        key={user._id}
+                        contact={user}
+                        isOnline={onlineUsers.includes(user._id)}
+                        onClickFn={() => setSelectedUser(user)}
+                        isSelected={selectedUser?._id === user._id}
+                     />
+                  ))}
             </nav>
          </div>
       </>

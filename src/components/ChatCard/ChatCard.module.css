@@ -1,7 +1,6 @@
 .chat-card {
    display: flex;
    padding: 1rem;
-   gap: 1rem;
 }
 .chat-card.sent {
    flex-direction: row-reverse;
@@ -16,7 +15,6 @@
    font-size: 13px;
    font-weight: 400;
    line-height: 19px;
-   margin-bottom: 3rem;
    align-self: flex-start;
 }
 .chat_message.sent {

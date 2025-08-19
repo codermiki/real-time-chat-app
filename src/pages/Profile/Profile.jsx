@@ -5,6 +5,7 @@ import { useContext, useState } from "react";
 import assets from "../../assets/assets";
 import Button from "../../components/Button/Button";
 import toast from "react-hot-toast";
+import { getBase64 } from "../../utils/base64Converter";
 
 function Profile() {
    // auth context
@@ -19,16 +20,6 @@ function Profile() {
    const navigate = useNavigate();
    const location = useLocation();
    const from = location.state?.from?.pathname || "/";
-
-   // function to convert image file to base64
-   const getBase64 = (file) => {
-      return new Promise((resolve, reject) => {
-         const reader = new FileReader();
-         reader.readAsDataURL(file);
-         reader.onload = () => resolve(reader.result);
-         reader.onerror = (error) => reject(error);
-      });
-   };
 
    // function to handle update profile submission
    const handleSubmit = async (e) => {
