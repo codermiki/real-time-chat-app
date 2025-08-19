@@ -1,6 +1,6 @@
 import styles from "../Auth.module.css";
 import Button from "../../Button/Button";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -45,7 +45,7 @@ function SignupForm() {
          const success = login("signup", data);
          if (success) {
             reset();
-            <Navigate to="/" />;
+            return <Navigate to="/" replace={true} />;
          }
       } catch (error) {
          toast.error(error.message);

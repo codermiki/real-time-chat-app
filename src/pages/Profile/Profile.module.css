@@ -22,7 +22,10 @@
 }
 .profile-picture img {
    min-width: 176px;
+   width: 176px;
    margin: 0 40px;
+   aspect-ratio: 1 / 1;
+   object-fit: cover;
    border-radius: 50%;
 }
 .form_title {
@@ -47,6 +50,12 @@
 }
 .image-upload-wrapper img {
    max-width: 60px;
+}
+.profile-image {
+   max-width: 100px;
+   aspect-ratio: 1 / 1;
+   object-fit: cover;
+   border-radius: 50%;
 }
 
 @media (width >= 40rem) {

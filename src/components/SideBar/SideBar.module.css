@@ -10,6 +10,7 @@
    justify-content: space-between;
    align-items: center;
    margin-bottom: 2rem;
+   position: relative;
 }
 .sidebar__logo {
    width: 150px;
@@ -17,4 +18,32 @@
 .sidebar__menu-icon {
    width: 30px;
    cursor: pointer;
+}
+.sidebar__dropdown {
+   visibility: hidden;
+   padding: 1rem;
+   border-radius: 8px;
+   position: absolute;
+   top: 30px;
+   right: 20px;
+   color: #fff;
+   background: black;
+   border: 1px solid #ccc;
+   z-index: 1000;
+   transform: translateY(50px, -50px);
+   opacity: 0;
+   transition: all 0.3s ease;
+}
+.sidebar__dropdown.active {
+   visibility: visible;
+   opacity: 1;
+   transform: translateY(0);
+}
+.sidebar__dropdown span {
+   display: block;
+   padding: 5px 0;
+   cursor: pointer;
+}
+.sidebar__dropdown span:hover {
+   background: rgba(255, 255, 255, 0.1);
 }

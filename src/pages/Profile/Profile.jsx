@@ -1,48 +1,51 @@
 import styles from "./Profile.module.css";
-import * as yup from "yup";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
 import { useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import assets from "../../assets/assets";
 import Button from "../../components/Button/Button";
-
-// schema for login form
-const schema = yup.object().shape({
-   email: yup
-      .string()
-      .email("Please insert valid email")
-      .required("Please insert your email"),
-   password: yup.string().required("Please insert your password"),
-});
+import toast from "react-hot-toast";
 
 function Profile() {
    // auth context
-   const { updateProfile } = useContext(AuthContext);
+   const { updateProfile, authUser } = useContext(AuthContext);
+
+   // State for profile Update
+   const [profilePic, setProfilePic] = useState(null);
+   const [fullName, setFullName] = useState(authUser?.fullName || "");
+   const [bio, setBio] = useState(authUser?.bio || "");
 
    // navigate hooks
    const navigate = useNavigate();
    const location = useLocation();
    const from = location.state?.from?.pathname || "/";
 
-   // form hook
-   const {
-      register,
-      handleSubmit,
-      formState: { errors, isSubmitting },
-      reset,
-   } = useForm({
-      resolver: yupResolver(schema),
-   });
+   // function to convert image file to base64
+   const getBase64 = (file) => {
+      return new Promise((resolve, reject) => {
+         const reader = new FileReader();
+         reader.readAsDataURL(file);
+         reader.onload = () => resolve(reader.result);
+         reader.onerror = (error) => reject(error);
+      });
+   };
 
-   // function to handle form submission
-   const onSubmit = async (data) => {
+   // function to handle update profile submission
+   const handleSubmit = async (e) => {
+      e.preventDefault();
       try {
-         const success = await updateProfile(data);
+         let payload = {
+            fullName,
+            bio,
+         };
+         if (profilePic) {
+            const base64Image = await getBase64(profilePic);
+            payload.profilePic = base64Image;
+         }
+
+         const success = await updateProfile(payload);
          if (success) {
-            navigate(from, { replace: true });
-            reset();
+            return navigate(from, { replace: true });
          }
       } catch (error) {
          toast.error(error.message);
@@ -55,7 +58,10 @@ function Profile() {
             <section
                className={`${styles["profile-inner-container"]} bg-glass`}
             >
-               <form className={`${styles["profile-form"]}`}>
+               <form
+                  onSubmit={handleSubmit}
+                  className={`${styles["profile-form"]}`}
+               >
                   <h1 className={`${styles["form_title"]}`}>Profile details</h1>
                   <div className={`${styles["input-wrapper"]}`}>
                      <label
@@ -63,6 +69,7 @@ function Profile() {
                         className={`${styles["image-upload-wrapper"]}`}
                      >
                         <input
+                           onChange={(e) => setProfilePic(e.target.files[0])}
                            type="file"
                            id="image-upload"
                            hidden
@@ -70,7 +77,11 @@ function Profile() {
                         />
                         <img
                            className={`${styles["profile-image"]}`}
-                           src={assets.avatar_icon}
+                           src={
+                              profilePic
+                                 ? URL.createObjectURL(profilePic)
+                                 : authUser?.profilePic || assets.avatar_icon
+                           }
                            alt="avatar"
                         />
                         upload profile image
@@ -79,38 +90,30 @@ function Profile() {
 
                   <div className={`${styles["input-wrapper"]}`}>
                      <input
-                        {...register("fullName")}
                         className={`${styles["input"]}`}
                         type="text"
                         placeholder="Your Full Name"
+                        value={fullName}
+                        onChange={(e) => setFullName(e.target.value)}
                      />
-                     {errors.fullName && (
-                        <p className={`${styles["error"]}`}>
-                           {errors.email.message}
-                        </p>
-                     )}
                   </div>
 
                   <div className={`${styles["input-wrapper"]}`}>
                      <textarea
-                        {...register("bio")}
                         className={`${styles["input"]}`}
                         placeholder="Write profile bio here"
+                        value={bio}
+                        onChange={(e) => setBio(e.target.value)}
                      ></textarea>
-                     {errors.fullName && (
-                        <p className={`${styles["error"]}`}>
-                           {errors.email.message}
-                        </p>
-                     )}
                   </div>
 
-                  <Button
-                     btnContent={"Save"}
-                     handleClick={handleSubmit(onSubmit)}
-                  />
+                  <Button btnContent={"Save"} btnType="submit" />
                </form>
                <div className={`${styles["profile-picture"]}`}>
-                  <img src={assets.avatar_icon} alt="avatar" />
+                  <img
+                     src={authUser?.profilePic || assets.avatar_icon}
+                     alt="avatar"
+                  />
                </div>
             </section>
          </section>
