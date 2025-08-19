@@ -1,11 +1,10 @@
-import React from "react";
 import styles from "./ContactCard.module.css";
 import assets from "../../assets/assets";
 
-function ContactCard({ contact }) {
+function ContactCard({ contact, isOnline, onClickFn, isSelected }) {
    return (
       <>
-         <div className={`${styles["contact-card"]}`}>
+         <div onClick={onClickFn} className={`${styles["contact-card"]} ${isSelected ? styles["selected"] : ""}`}>
             <img
                className={`${styles["contact-card__image"]}`}
                src={contact?.profilePic || assets.avatar_icon}
@@ -16,12 +15,12 @@ function ContactCard({ contact }) {
                   {contact?.fullName}
                </h3>
                <p className={`${styles["contact-card__status"]}`}>
-                  {contact?.status}
+                  {isOnline ? "Online" : "Offline"}
                </p>
             </div>
             <div className={`${styles["contact-card__unread-count"]}`}>
                <span className={`${styles["contact-card__count"]}`}>
-                  {contact?.unreadCount || 0}
+                  {contact?.unseenMessages || 0}
                </span>
             </div>
          </div>

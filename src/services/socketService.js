@@ -1,9 +1,9 @@
 import { io } from "socket.io-client";
 
-const backendUrl = import.meta.env.VITE_BACKEND_URL;
+const socketUrl = import.meta.env.VITE_SOCKET_URL;
 
 export const createSocketConnection = (userId, setOnlineUsers) => {
-   const socketInstance = io(backendUrl, {
+   const socketInstance = io(socketUrl, {
       query: { userId },
    });
 

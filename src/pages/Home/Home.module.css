@@ -1,0 +1,32 @@
+.home {
+   width: 100%;
+}
+.home__chat {
+   height: 100vh;
+   display: flex;
+   flex-direction: column;
+   overflow-y: scroll;
+   position: relative;
+}
+.home__sidebar {
+   height: 100vh;
+   width: 300px;
+   padding: 1rem;
+   overflow-y: scroll;
+}
+.home__chat__empty {
+   padding: 1rem;
+   margin: auto;
+   color: #999;
+}
+
+.home__chat__footer {
+   padding: 1rem;
+   display: flex;
+   justify-content: center;
+   position: fixed;
+   bottom: 20px;
+}
+.home__chat__scroll {
+   height: 100px;
+}

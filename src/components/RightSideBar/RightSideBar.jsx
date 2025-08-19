@@ -2,8 +2,9 @@ import { useContext } from "react";
 import styles from "./RightSideBar.module.css";
 import Button from "../Button/Button";
 import { AuthContext } from "../../context/AuthContext";
+import assets from "../../assets/assets";
 
-function RightSideBar() {
+function RightSideBar({ contact }) {
    const { logout } = useContext(AuthContext);
    return (
       <>
@@ -12,17 +13,17 @@ function RightSideBar() {
                <div className={`${styles["profile"]}`}>
                   <img
                      className={`${styles["profile_img"]}`}
-                     src="https://picsum.photos/200/300"
+                     src={contact?.profilePic || assets.avatar_icon}
                      alt=""
                   />
                   <div className={`${styles["profile_info"]}`}>
                      <p className={`${styles["profile_status"]}`}></p>
                      <p className={`${styles["profile_name"]}`}>
-                        Caroline Gray
+                        {contact?.fullName || "Unknown User"}
                      </p>
                   </div>
                   <p className={`${styles["profile_bio"]}`}>
-                     Lorem ipsum is placeholder text commonly used in ..
+                     {contact?.bio || "I am using quick chat app..."}
                   </p>
                </div>
                <hr className={`${styles["hr"]}`} />
