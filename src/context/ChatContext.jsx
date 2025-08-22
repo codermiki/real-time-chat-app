@@ -54,7 +54,6 @@ export const ChatProvider = ({ children }) => {
 
       const handleNewMessage = (newMessage) => {
          if (selectedUser && newMessage.senderId === selectedUser._id) {
-            newMessage.isSeen = true;
             markMessageAsRead(newMessage._id, token);
             setMessages((prevMessages) => [...prevMessages, newMessage]);
          } else {
