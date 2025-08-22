@@ -2,9 +2,11 @@ import { useContext } from "react";
 import styles from "./Header.module.css";
 import assets from "../../assets/assets";
 import { AuthContext } from "../../context/AuthContext";
+import { ChatContext } from "../../context/ChatContext";
 
 function Header() {
-   const { authUser } = useContext(AuthContext);
+   const { onlineUsers } = useContext(AuthContext);
+   const { selectedUser } = useContext(ChatContext);
 
    return (
       <>
@@ -12,13 +14,15 @@ function Header() {
             <div className={`${styles["profile"]}`}>
                <img
                   className={`${styles["profile_img"]}`}
-                  src={authUser?.profilePic || assets.avatar_icon}
+                  src={selectedUser?.profilePic || assets.avatar_icon}
                   alt=""
                />
                <p className={`${styles["profile_name"]}`}>
-                  {authUser?.fullName || "Unknown User"}
+                  {selectedUser?.fullName || "Unknown User"}
                </p>
-               <span className={`${styles["profile_status"]}`}></span>
+               {onlineUsers.includes(selectedUser._id) && (
+                  <span className={`${styles["profile_status"]}`}></span>
+               )}
             </div>
             <div className={`${styles["header_right"]}`}>
                <p className={`${styles["header_icon"]}`}>i</p>

@@ -1,6 +1,7 @@
 .chat-card {
    display: flex;
    padding: 1rem;
+   gap: 1rem;
 }
 .chat-card.sent {
    flex-direction: row-reverse;
@@ -34,7 +35,8 @@
 }
 .chat_profile img {
    width: 39px;
-   aspect-ratio: 1;
+   aspect-ratio: 1/1;
+   object-fit: cover;
    border-radius: 50%;
 }
 .chat_profile span {

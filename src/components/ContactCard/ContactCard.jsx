@@ -1,10 +1,21 @@
 import styles from "./ContactCard.module.css";
 import assets from "../../assets/assets";
 
-function ContactCard({ contact, isOnline, onClickFn, isSelected }) {
+function ContactCard({
+   contact,
+   unseenMessages,
+   isOnline,
+   onClickFn,
+   isSelected,
+}) {
    return (
       <>
-         <div onClick={onClickFn} className={`${styles["contact-card"]} ${isSelected ? styles["selected"] : ""}`}>
+         <div
+            onClick={onClickFn}
+            className={`${styles["contact-card"]} ${
+               isSelected ? styles["selected"] : ""
+            }`}
+         >
             <img
                className={`${styles["contact-card__image"]}`}
                src={contact?.profilePic || assets.avatar_icon}
@@ -20,7 +31,7 @@ function ContactCard({ contact, isOnline, onClickFn, isSelected }) {
             </div>
             <div className={`${styles["contact-card__unread-count"]}`}>
                <span className={`${styles["contact-card__count"]}`}>
-                  {contact?.unseenMessages || 0}
+                  {unseenMessages || ""}
                </span>
             </div>
          </div>

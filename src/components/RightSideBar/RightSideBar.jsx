@@ -1,11 +1,22 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import styles from "./RightSideBar.module.css";
 import Button from "../Button/Button";
 import { AuthContext } from "../../context/AuthContext";
 import assets from "../../assets/assets";
+import { ChatContext } from "../../context/ChatContext";
 
-function RightSideBar({ contact }) {
-   const { logout } = useContext(AuthContext);
+function RightSideBar() {
+   const { selectedUser, messages } = useContext(ChatContext);
+   const { logout, onlineUsers } = useContext(AuthContext);
+   const [media, setMedia] = useState([]);
+
+   useEffect(() => {
+      let images = messages
+         .filter((message) => message.image)
+         .map((message) => message.image);
+      setMedia(images);
+   }, [messages]);
+
    return (
       <>
          <div className={`${styles["right-sidebar"]}`}>
@@ -13,33 +24,37 @@ function RightSideBar({ contact }) {
                <div className={`${styles["profile"]}`}>
                   <img
                      className={`${styles["profile_img"]}`}
-                     src={contact?.profilePic || assets.avatar_icon}
+                     src={selectedUser?.profilePic || assets.avatar_icon}
                      alt=""
                   />
                   <div className={`${styles["profile_info"]}`}>
-                     <p className={`${styles["profile_status"]}`}></p>
+                     {onlineUsers.includes(selectedUser._id) && (
+                        <span className={`${styles["profile_status"]}`}></span>
+                     )}
                      <p className={`${styles["profile_name"]}`}>
-                        {contact?.fullName || "Unknown User"}
+                        {selectedUser?.fullName || "Unknown User"}
                      </p>
                   </div>
                   <p className={`${styles["profile_bio"]}`}>
-                     {contact?.bio || "I am using quick chat app..."}
+                     {selectedUser?.bio || "I am using quick chat app..."}
                   </p>
                </div>
                <hr className={`${styles["hr"]}`} />
                <div className={`${styles["media"]}`}>
-                  <div>media</div>
+                  <div>Media</div>
                   <div className={`${styles["media_container"]}`}>
-                     <img
-                        className={`${styles["media_content"]}`}
-                        src="https://picsum.photos/200/300"
-                        alt=""
-                     />
-                     <img
-                        className={`${styles["media_content"]}`}
-                        src="https://picsum.photos/200/300"
-                        alt=""
-                     />
+                     {media && media?.length > 0 ? (
+                        media.map((image, idx) => (
+                           <img
+                              key={idx}
+                              className={`${styles["media_content"]}`}
+                              src={image}
+                              alt=""
+                           />
+                        ))
+                     ) : (
+                        <p>No media exchange yet!</p>
+                     )}
                   </div>
                </div>
             </div>

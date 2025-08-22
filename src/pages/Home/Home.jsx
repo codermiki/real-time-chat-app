@@ -57,7 +57,7 @@ function Home() {
                {selectedUser ? (
                   <>
                      <Header />
-                     <div>
+                     <>
                         {messages.length > 0 ? (
                            messages.map((message, idx) => (
                               <div key={idx}>
@@ -82,7 +82,7 @@ function Home() {
                               Say hi to start messaging
                            </div>
                         )}
-                     </div>
+                     </>
                      <div className={styles["home__chat__footer"]}>
                         <Input
                            message={message}
@@ -101,7 +101,7 @@ function Home() {
             </section>
             {selectedUser && (
                <section className={`${styles["home__sidebar"]} flex-4/12`}>
-                  <RightSideBar contact={selectedUser} />
+                  <RightSideBar />
                </section>
             )}
          </section>

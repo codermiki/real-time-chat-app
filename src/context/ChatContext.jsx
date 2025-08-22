@@ -3,6 +3,7 @@ import { AuthContext } from "./AuthContext";
 import {
    getAllUsers,
    getMessagesForUser,
+   markMessageAsRead,
    sendMessageToUser,
 } from "../services/chatService";
 
@@ -18,10 +19,14 @@ export const ChatProvider = ({ children }) => {
 
    // Fetch all users
    const fetchUsers = async () => {
-      const data = await getAllUsers(token);
-      if (data.success) {
-         setUsers(data.data);
-         setUnseenMessages(data.unseenMessages);
+      const response = await getAllUsers(token);
+      if (response.success) {
+         setUsers(response.data);
+         let unReadMessages = {};
+         response.data.forEach((user) => {
+            unReadMessages[user._id] = user.unseenMessages;
+         });
+         setUnseenMessages(unReadMessages);
       }
    };
 
@@ -44,12 +49,10 @@ export const ChatProvider = ({ children }) => {
          setMessages((prevMessages) => [...prevMessages, data.data]);
       }
    };
-
-   // Subscribe to messages for selected user
-   const subscribeToMessages = async () => {
+   useEffect(() => {
       if (!socket) return;
 
-      socket.on("newMessage", (newMessage) => {
+      const handleNewMessage = (newMessage) => {
          if (selectedUser && newMessage.senderId === selectedUser._id) {
             newMessage.isSeen = true;
             markMessageAsRead(newMessage._id, token);
@@ -62,19 +65,14 @@ export const ChatProvider = ({ children }) => {
                   : 1,
             }));
          }
-      });
-   };
+      };
 
-   // unsubscribe from socket events
-   const unsubscribeFromMessages = () => {
-      if (socket) socket.off("newMessage");
-   };
+      socket.on("newMessage", handleNewMessage);
 
-   // Subscribe to socket events
-   useEffect(() => {
-      subscribeToMessages();
-      return () => unsubscribeFromMessages();
-   }, [socket, selectedUser]);
+      return () => {
+         socket.off("newMessage", handleNewMessage);
+      };
+   }, [socket, selectedUser, token]);
 
    const value = {
       messages,

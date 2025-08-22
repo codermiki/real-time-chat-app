@@ -70,8 +70,15 @@ function SideBar() {
                      <ContactCard
                         key={user._id}
                         contact={user}
+                        unseenMessages={unseenMessages[user._id]}
                         isOnline={onlineUsers.includes(user._id)}
-                        onClickFn={() => setSelectedUser(user)}
+                        onClickFn={() => {
+                           setSelectedUser(user);
+                           setUnseenMessages((prev) => ({
+                              ...prev,
+                              [user?._id]: 0,
+                           }));
+                        }}
                         isSelected={selectedUser?._id === user._id}
                      />
                   ))}
